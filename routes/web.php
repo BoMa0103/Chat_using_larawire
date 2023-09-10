@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Chat\Main;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -7,12 +8,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/chat', function () {
-    return view('chat', [
-        'user_id' => \auth()->user()->id,
-    ]);
-})->middleware('auth');
-
+Route::get('/chat', Main::class)
+    ->middleware('auth');
 
 Auth::routes();
 

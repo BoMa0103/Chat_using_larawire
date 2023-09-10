@@ -15,6 +15,7 @@
         "laravel/ui": "^4.2",
         "livewire/livewire": "^3.0",
         "predis/predis": "^2.2",
+        "pusher/pusher-php-server": "^7.2",
         "robsontenorio/mary": "^0.31.1"
     },
     "require-dev": {

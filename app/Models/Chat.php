@@ -33,6 +33,21 @@ class Chat extends Model
 
     protected $guarded = [];
 
+    public function getReceiver(): User
+    {
+
+        if ($this->user_id_first === auth()->id()) {
+
+            return User::firstWhere('id',$this->user_id_second);
+
+        } else {
+
+            return User::firstWhere('id',$this->user_id_first);
+        }
+
+
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

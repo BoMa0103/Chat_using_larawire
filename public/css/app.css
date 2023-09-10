@@ -133,7 +133,7 @@ textarea {
 
 
 
-.online-users {
+.users {
     margin-bottom: auto;
     flex: 1;
     background-color: #fff;
@@ -144,7 +144,7 @@ textarea {
     height: 100%;
 }
 
-.online-users-header {
+.users-header {
     background-color: #0088cc;
     color: #fff;
     padding: 10px;
@@ -152,19 +152,19 @@ textarea {
     font-weight: bold;
 }
 
-.online-users ul {
+.users ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.online-users li {
+.users li {
     padding: 5px 0;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
 }
 
-.online-users li:hover {
+.users li:hover {
     background-color: #f2f2f9;
 }
 

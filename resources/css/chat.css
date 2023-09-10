@@ -31,6 +31,7 @@
     position: relative;
     background-color: hsl(var(--b1) / var(--tw-bg-opacity, 1));
     z-index: 1;
+    padding-top: 12px;
     color: #e5dfd3;
 }
 
@@ -174,7 +175,7 @@ textarea {
 
 .no-chat {
     flex: 6;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     background-color: #2d3748;
@@ -314,34 +315,36 @@ textarea {
     border: 2px solid #2d3748;
 }
 
-.online-users {
+.users {
     border-left: 1px solid #2d3748;
     margin-bottom: auto;
-    flex: 1;
+    flex: 1.3;
     overflow: hidden;
     height: 100%;
+    min-width: fit-content;
 }
 
-.online-users-header {
+.users-header {
     padding: 10px;
+    padding-top: 12px;
     height: 50px;
     text-align: center;
     font-weight: bold;
     color: #e5dfd3;
 }
 
-.online-users ul {
+.users ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.online-users li {
+.users li {
     padding: 10px;
     cursor: pointer;
 }
 
-.online-users li:hover {
+.users li:hover {
     background-color: #4b5563;
     transition: background-color 0.4s ease;
     border-radius: 40px;
@@ -405,8 +408,8 @@ textarea {
     font-size: 14px;
     height: 1.2em;
     overflow: hidden;
-    white-space: nowrap; /* Prevent text from wrapping */
-    text-overflow: ellipsis; /* Add ellipsis (...) at the end of the line */
+    white-space: nowrap;
+    text-overflow: ellipsis;
     max-width: 200px;
 }
 
