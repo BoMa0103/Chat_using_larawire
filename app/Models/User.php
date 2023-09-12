@@ -95,8 +95,8 @@ class User extends Authenticatable
     /**
      * The channels the user receives notification broadcasts on.
      */
-    public function receivesBroadcastNotificationsOn(): string
-    {
-        return 'users.'.$this->id;
-    }
+//    public function receivesBroadcastNotificationsOn(): string
+//    {
+//        return 'users.'.$this->id;
+//    }
 }

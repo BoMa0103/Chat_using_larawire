@@ -50,15 +50,6 @@
         }
     })
 
-
-
-    // document.getElementById('text').addEventListener('input', function () {
-    //     if (document.getElementById('text').value.trim() !== '') {
-    //         document.getElementById('send').removeAttribute('disabled');
-    //     } else {
-    //         document.getElementById('send').setAttribute('disabled', 'disabled');
-    //     }
-    // });
 </script>
 
 

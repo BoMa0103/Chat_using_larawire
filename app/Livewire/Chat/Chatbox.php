@@ -20,15 +20,29 @@ class Chatbox extends Component
     {
         $auth_id = auth()->user()->id;
         return [
-//            "echo-private:chat.{$auth_id},.App\\Events\\MessageSent" => 'broadcastedMessageReceived',
+            "echo-private:chat.{$auth_id},MessageSentEvent" => 'broadcastedMessageReceived',
             'loadChat', 'pushMessage', 'loadmore', 'updateHeight'
         ];
     }
 
-//    function broadcastedMessageReceived($event)
-//    {
-//        dd($event);
-//    }
+    function broadcastedMessageReceived($event)
+    {
+
+        $broadcastedMessage = Message::find($event['message']['id']);
+
+        if ($this->selectedChat) {
+
+            if ((int) $this->selectedChat->id === (int)$event['chat']['id']) {
+
+                $broadcastedMessage->read_status = 1;
+                $broadcastedMessage->save();
+
+                $this->pushMessage($broadcastedMessage->id);
+
+            }
+
+        }
+    }
 
     public function pushMessage(int $messageId)
     {

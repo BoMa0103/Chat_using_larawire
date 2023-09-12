@@ -34,16 +34,11 @@
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
-        console.log('sdffdgdfsdf');
         if(window.innerWidth < 768) {
             $('.chat-list').hide();
             $('.users').hide();
             $('.chat').show();
         }
-
-        console.log(document.getElementById('messages'));
-
-        $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight)
     });
 
     window.addEventListener('rowChatToBottom', event => {
@@ -56,8 +51,7 @@
         if(top < 1000) {
             window.livewire.dispatch('loadmore');
         }
-    })
-
+    });
 
 </script>
 
