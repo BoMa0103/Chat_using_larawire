@@ -20,24 +20,53 @@
     <div class="chat-list-box">
 
         <ul id="chat-list">
-            @foreach($chats as $chat)
+            @foreach($chats as $key => $chat)
 
-                <li class="chat-item" id="chat-item" wire:key='{{$chat->id}}' wire:click="chatUserSelected({{$chat}}, {{$this->getChatUserInstance($chat, $name='id')}})">
+                <li class="chat-item @php
+                    if($selectedChat) {
+                        if($chat->id === $selectedChat->id)
+                        {
+                            echo ' selected';
+                            if($key == 0){
+                                $selectedFirstChatFlag = true;
+                                echo ' firstChat';
+                            } else{$selectedFirstChatFlag = false;
+                            echo ' nChat';}
+                        }
+                    } @endphp" wire:key='{{$chat->id}}' wire:click="chatUserSelected({{$chat}}, {{$this->getChatUserInstance($chat, $name='id')}})">
+                    <div>
                         <div class='chat-info' id="{{$chat->id}}">
                             <img class="w-7 h-7 mr-6 rounded-full" src="/images/alexander-hipp-iEEBWgY_6lA-unsplash.jpg"
                                  alt="User image">
-                            <div class='online-circle'></div>
+                            <div class='online-circle' wire:ignore></div>
                             <div class='chat-name-last-message'>
                                 <p class="chat-name"> {{$this->getChatUserInstance($chat, $name='name')}} </p>
-                                <p class="chat-last-message" id="chat-last-message"> {{$chat->messages->last()->value}} </p>
-{{--                                <p class=\"chat-last-message-data\" id=\"chat-last-message-data\"> {{$chat->messages->last()->created_at->shortAbsoluteDiffForHumans()}} </p>--}}
+                                <p class="chat-last-message" id="chat-last-message"> {{ $chat->messages->last() ? $chat->messages->last()->value : '' }} </p>
                             </div>
-{{--                            <div class="chat-unread-messages-count">  1 </div>--}}
+                            <p class="chat-last-message-data" id="chat-last-message-data"> {{$chat->messages->last() ? $chat->messages->last()->created_at->format('H:i') : ''}} </p>
+                            @php
+                                $unreadMessagesCount = count($chat->messages->where('read_status', 0)->where('user_id', '!=', auth()->user()->id));
+                                if($unreadMessagesCount) {
+                                    echo '<div class="chat-unread-messages-count">' .  $unreadMessagesCount . '</div>';
+                                }
+                            @endphp
+
                         </div>
+                    </div>
                 </li>
 
             @endforeach
+
+            @php
+                if($selectedFirstChatFlag) {
+                    echo '<style> .concave-left{display:none;} .messages{border-top-left-radius: 0;}</style>';
+                }else{
+                    echo '<style> .concave-left{display:flex;}</style>';
+                }
+            @endphp
+
         </ul>
 
     </div>
+
 </div>

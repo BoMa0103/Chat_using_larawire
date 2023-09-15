@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Chat;
 
+use App\Events\ChatCreate;
+use App\Events\MarkAsOnline;
 use App\Models\Chat;
 use App\Models\User;
 use Livewire\Component;
@@ -23,6 +25,15 @@ class UserList extends Component
                 'user_id_first' => auth()->user()->id,
                 'user_id_second' => $userId,
             ]);
+
+            broadcast(event: new ChatCreate(
+                $createdChat->id,
+                $userId));
+
+            $this->dispatch('refreshChatList');
+
+            broadcast(event: new MarkAsOnline(
+                auth()->user()->id));
         } else {
             // Chat exists
         }

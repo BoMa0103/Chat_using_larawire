@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Chat;
 
+use App\Events\MessageRead;
 use App\Events\MessageSent;
 use App\Models\Chat;
 use App\Models\Message;
@@ -21,12 +22,20 @@ class Chatbox extends Component
         $auth_id = auth()->user()->id;
         return [
             "echo-private:chat.{$auth_id},MessageSentEvent" => 'broadcastedMessageReceived',
-            'loadChat', 'pushMessage', 'loadmore', 'updateHeight'
+            "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
+            'loadChat', 'pushMessage', 'loadMore', 'updateHeight', 'broadcastMessageRead', 'resetChat',
         ];
+    }
+
+    public function resetChat(){
+        $this->selectedChat = null;
+        $this->receiverInstance = null;
+        $this->dispatch('refresh');
     }
 
     function broadcastedMessageReceived($event)
     {
+        $this->dispatch('refresh');
 
         $broadcastedMessage = Message::find($event['message']['id']);
 
@@ -39,9 +48,22 @@ class Chatbox extends Component
 
                 $this->pushMessage($broadcastedMessage->id);
 
+                $this->dispatch('broadcastMessageRead');
             }
 
+        }else {
+            $this->dispatch('notify', ['user' => ['name' => $event['user']['name']]]);
         }
+
+        $this->dispatch('refreshChatList');
+    }
+
+    public function broadcastMessageRead()
+    {
+        broadcast(new MessageRead(
+            $this->selectedChat->id,
+            $this->receiverInstance->id,
+        ));
     }
 
     public function pushMessage(int $messageId)
@@ -53,14 +75,8 @@ class Chatbox extends Component
         $this->dispatch('rowChatToBottom');
     }
 
-    function loadmore()
-    {
-        dd('top reached');
-    }
-
     public function loadChat(Chat $chat, User $receiver)
     {
-
         $this->selectedChat = $chat;
         $this->receiverInstance = $receiver;
 
@@ -70,6 +86,9 @@ class Chatbox extends Component
             ->skip($this->messages_count - $this->paginateVar)
             ->take($this->paginateVar)
             ->get();
+
+        $this->dispatch('chat');
+        $this->dispatch('header');
 
         $this->dispatch('chatSelected');
     }

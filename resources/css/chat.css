@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .chat-container {
     display: flex;
     justify-content: center;
@@ -22,6 +23,29 @@
     margin: 0;
 }
 
+.chat_container {
+    flex: 6;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    background-color: #2d3748;
+    padding: 0;
+    margin: 0;
+}
+
+.return {
+    cursor: pointer;
+    height: fit-content;
+    margin-top: -7px;
+}
+
+.chat-header-name {
+    margin-left: 10px;
+    margin-top: 1px;
+}
+
 .chat-header {
     min-height: 50px !important;
     padding: 10px;
@@ -33,6 +57,7 @@
     z-index: 1;
     padding-top: 12px;
     color: #e5dfd3;
+    display: flex;
 }
 
 .concave-left {
@@ -109,7 +134,7 @@
 
 .message-content {
     max-width: 340px;
-    padding: 4px 12px;
+    padding: 4px 8px 0px 8px;
     border-radius: 5px;
     word-wrap: break-word;
 }
@@ -241,6 +266,7 @@ textarea {
 }
 
 .message-meta {
+    margin-left: 20px;
     display: flex;
     justify-content: flex-end;
 }
@@ -281,19 +307,35 @@ textarea {
     display: flex;
 }
 
+.chat_last_data_unread_messages {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+}
+
+.chat-last-message-data {
+    display: flex;
+    margin-left: auto;
+    margin-right: 10px;
+    font-size: 14px;
+    padding-top: 16px;
+    font-weight: 400;
+}
+
+
 .chat-unread-messages-count {
     display: flex;
     justify-content: center;
     justify-items: center;
     position: relative;
     font-size: 14px;
-    margin-left: auto;
+    font-weight: 500;
     height: 22px;
     align-items: center;
     min-width: 22px;
     width: fit-content;
     color: #e5dfd3;
-    background-color: #2d3748;
+    background-color: #0088cc;
     border-radius: 100%;
     margin-top: 3px;
 }
@@ -303,10 +345,11 @@ textarea {
     width: 14px;
     border-radius: 100%;
     z-index: 10;
-    padding: 2px;
     background-color: #0088cc;
     margin-top: auto;
-    margin-left: -14px;
+    margin-left: -35px;
+    margin-right: 20px;
+    margin-bottom: 3px;
     border: 2px solid hsl(var(--b1) / var(--tw-bg-opacity, 1));
     display: none;
 }
@@ -382,7 +425,6 @@ textarea {
 .chat-name-last-message {
     display: flex;
     flex-direction: column;
-    margin-left: 20px;
 }
 
 .chat-item a img {

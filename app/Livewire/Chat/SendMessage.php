@@ -25,7 +25,6 @@ class SendMessage extends Component
 
     function sendMessage()
     {
-
         if ($this->body == null) {
             return null;
         }
@@ -42,22 +41,17 @@ class SendMessage extends Component
         $this->dispatch('pushMessage', $this->createdMessage->id);
 
         $this->dispatch('refresh');
+        $this->dispatch('refreshChatList');
 
         $this->reset('body');
+
+        $this->dispatch('scroll-bottom');
 
         broadcast(event: new MessageSentEvent(
             auth()->user(),
             $this->createdMessage,
             $this->selectedChat,
             $this->selectedChat->getReceiver()->id));
-
-//        $this->selectedChat->getReceiver()
-//            ->notify(new MessageSent(
-//                auth()->user(),
-//                $this->createdMessage,
-//                $this->selectedChat,
-//                $this->selectedChat->getReceiver()->id,
-//            ));
     }
 
     public function render()
