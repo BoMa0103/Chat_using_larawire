@@ -137,7 +137,6 @@
     });
 
     window.addEventListener('beforeunload', function (event) {
-        console.log('sdfs');
         @this.dispatch('sendEventMarkChatAsOffline');
     });
 </script>

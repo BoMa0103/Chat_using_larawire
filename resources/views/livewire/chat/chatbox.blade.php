@@ -11,12 +11,8 @@
 
 <script>
 
-    // window.addEventListener('rowChatToBottom', event => {
-    //     $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
-    // });
-
     $(document).on('click', '.return', function (){
-    @this.dispatch('resetChat');
+        @this.dispatch('resetChat');
     });
 
     window.addEventListener('markMessageAsRead', event=>{
@@ -38,31 +34,41 @@
         window.addEventListener('rowChatToBottom', event => {
             let messagesElement = document.getElementById('messages');
 
-            // Use Alpine.js nextTick to wait for the element to be available
-            Alpine.nextTick(() => {
-                if (messagesElement) {
-                    $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
-                }
-            });
-        });
-        window.addEventListener('chatSelected', event => {
-            let messagesElement = document.getElementById('messages');
-
-            // Use Alpine.js nextTick to wait for the element to be available
-            Alpine.nextTick(() => {
-                if (messagesElement) {
-                    $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
-                }
-            });
-        });
-
-        $('.chat-messages').scroll(function (){
-            let top = $('.chat-messages').scrollTop();
-            console.log(top);
-            if(top == 0){
-                window.livewire.dispatch('loadmore');
+            if (messagesElement) {
+                $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
             }
-        })
+        });
+
+        window.addEventListener('scrollEventHandle', event => {
+            $('.chat-messages').scroll(function (){
+                let top = $('.chat-messages').scrollTop();
+                if(top == 0){
+                    @this.dispatch('loadMore');
+                }
+            })
+        });
+
+        window.addEventListener('chatSelectedGetHeight', event => {
+            let messagesElement = document.getElementById('messages');
+            let height = messagesElement.scrollHeight;
+
+            @this.dispatch('updateHeight', {
+                height:height
+            });
+        });
+
+        window.addEventListener('updatedHeight', event => {
+            let messagesElement = document.getElementById('messages');
+            let old = event.detail[0];
+            let newHeight = messagesElement.scrollHeight;
+
+
+            messagesElement.scrollTop = newHeight - old;
+
+            @this.dispatch('updateHeight', {
+                height:newHeight
+            });
+        });
     });
 
 </script>

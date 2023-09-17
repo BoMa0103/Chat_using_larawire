@@ -10,6 +10,9 @@ class ChatboxChat extends Component
 {
     public $messages;
     public $selectedChat;
+    public $paginateVar = 20;
+    public $messages_count;
+    public $height;
 
     public function getListeners()
     {
@@ -17,8 +20,13 @@ class ChatboxChat extends Component
         return [
             "echo-private:chat.{$auth_id},MessageSentEvent" => 'broadcastedMessageReceived',
             "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
-            'refresh' => '$refresh', 'chat', 'pushMessage', 'loadChatData',
+            'refresh' => '$refresh', 'chat', 'pushMessage', 'loadChatData', 'setMessages', 'loadMore', 'updateHeight', 'updatedHeightEvent'
         ];
+    }
+
+    public function updateHeight($height)
+    {
+        $this->height = $height;
     }
 
     function broadcastedMessageReceived($event)
@@ -46,6 +54,11 @@ class ChatboxChat extends Component
         }
     }
 
+    public function updatedHeightEvent()
+    {
+        $this->dispatch('updatedHeight', $this->height);
+    }
+
     function broadcastedMessageRead($event)
     {
         if($this->selectedChat) {
@@ -55,8 +68,23 @@ class ChatboxChat extends Component
         }
     }
 
-    public function chat(){
+    public function chat()
+    {
         $this->dispatch('refresh');
+    }
+
+    public function loadMore()
+    {
+        $this->paginateVar += 20;
+
+        $this->messages_count = Message::where('chat_id', $this->selectedChat->id)->count();
+
+        $this->messages = Message::where('chat_id', $this->selectedChat->id)
+            ->skip($this->messages_count - $this->paginateVar)
+            ->take($this->paginateVar)
+            ->get();
+
+        $this->dispatch('updatedHeightEvent');
     }
 
     public function pushMessage(int $messageId)
@@ -72,8 +100,16 @@ class ChatboxChat extends Component
         $this->selectedChat = $chat;
     }
 
+    public function mount()
+    {
+        $this->dispatch('chatSelectedGetHeight');
+        $this->dispatch('rowChatToBottom');
+        $this->dispatch('scrollEventHandle');
+    }
+
     public function render()
     {
         return view('livewire.chat.chatbox-chat');
     }
+
 }

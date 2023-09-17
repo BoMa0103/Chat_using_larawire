@@ -34,8 +34,6 @@ class UserList extends Component
 
             broadcast(event: new MarkAsOnline(
                 auth()->user()->id));
-        } else {
-            // Chat exists
         }
     }
 

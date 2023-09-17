@@ -10,7 +10,6 @@ class ChatboxHeader extends Component
 
     public function getListeners()
     {
-        $auth_id = auth()->user()->id;
         return [
             'refresh' => '$refresh', 'header',
         ];

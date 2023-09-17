@@ -1,7 +1,6 @@
 <div class="chat-messages" id="messages">
     @foreach($messages as $message)
         <div wire:key='{{$message->id}}' class="message {{auth()->id() == $message->user_id ? 'outgoing' : 'incoming'}}">
-            {{--                    <div class="message_user"> {{$message->user->name}} </div>--}}
             <div class="message-content" id="message">
                 {{$message->value}}
             </div>

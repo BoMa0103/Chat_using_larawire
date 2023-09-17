@@ -23,7 +23,7 @@ class Chatbox extends Component
         return [
             "echo-private:chat.{$auth_id},MessageSentEvent" => 'broadcastedMessageReceived',
             "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
-            'loadChat', 'pushMessage', 'loadMore', 'updateHeight', 'broadcastMessageRead', 'resetChat',
+            'loadChat', 'pushMessage', 'broadcastMessageRead', 'resetChat',
         ];
     }
 
