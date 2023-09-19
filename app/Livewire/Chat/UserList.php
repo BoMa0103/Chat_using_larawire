@@ -6,22 +6,24 @@ use App\Events\ChatCreate;
 use App\Events\MarkAsOnline;
 use App\Models\Chat;
 use App\Models\User;
+use App\Services\Chats\ChatsService;
 use Livewire\Component;
 
 class UserList extends Component
 {
     public $users;
 
+    private function getChatsService(): ChatsService
+    {
+        return app(ChatsService::class);
+    }
+
     public function checkChat(int $userId)
     {
-        $checkedChat = Chat::where('user_id_first', auth()->user()->id)
-            ->where('user_id_second', $userId)
-            ->orWhere('user_id_first', $userId)
-            ->where('user_id_second', auth()->user()->id)
-            ->get();
+        $checkedChat = $this->getChatsService()->findChatBetweenTwoUsers(auth()->user()->id, $userId);
 
-        if (count($checkedChat) == 0) {
-            $createdChat = Chat::create([
+        if (!$checkedChat) {
+            $createdChat = $this->getChatsService()->createFromArray([
                 'user_id_first' => auth()->user()->id,
                 'user_id_second' => $userId,
             ]);

@@ -28,8 +28,8 @@ class ChatsService
         return $this->chatRepository->findChatBetweenTwoUsers($userIdFirst, $userIdSecond);
     }
 
-    public function getChatsForUserByName(int $userId, string $name)
+    public function getChatsOrderByDesc(int $userId)
     {
-
+        return $this->chatRepository->getChatsOrderByDesc($userId);
     }
 }

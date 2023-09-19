@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ URL::asset('images/free-icon-chat-bubble-6068634.png') }}" type="image/png">
 
     <title>Chat</title>
 
@@ -12,6 +13,7 @@
 
     <!-- Scripts -->
     <script type="text/javascript" src="{{ URL::asset('js/chat/chat.js') }}"></script>
+
     <script
         src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="

@@ -3,10 +3,9 @@
 namespace App\Livewire\Chat;
 
 use App\Events\MessageRead;
-use App\Events\MessageSent;
 use App\Models\Chat;
-use App\Models\Message;
 use App\Models\User;
+use App\Services\Messages\MessagesService;
 use Livewire\Component;
 
 class Chatbox extends Component
@@ -17,11 +16,16 @@ class Chatbox extends Component
     public $paginateVar = 20;
     public $messages_count;
 
+    private function getMessagesService(): MessagesService
+    {
+        return app(MessagesService::class);
+    }
+
     public function getListeners()
     {
         $auth_id = auth()->user()->id;
         return [
-            "echo-private:chat.{$auth_id},MessageSentEvent" => 'broadcastedMessageReceived',
+            "echo-private:chat.{$auth_id},MessageSent" => 'broadcastedMessageReceived',
             "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
             'loadChat', 'pushMessage', 'broadcastMessageRead', 'resetChat',
         ];
@@ -37,7 +41,7 @@ class Chatbox extends Component
     {
         $this->dispatch('refresh');
 
-        $broadcastedMessage = Message::find($event['message']['id']);
+        $broadcastedMessage = $this->getMessagesService()->find($event['message']['id']);
 
         if ($this->selectedChat) {
 
@@ -68,7 +72,7 @@ class Chatbox extends Component
 
     public function pushMessage(int $messageId)
     {
-        $newMessage = Message::find($messageId);
+        $newMessage = $this->getMessagesService()->find($messageId);
 
         $this->messages->push($newMessage);
 
@@ -80,12 +84,9 @@ class Chatbox extends Component
         $this->selectedChat = $chat;
         $this->receiverInstance = $receiver;
 
-        $this->messages_count = Message::where('chat_id', $this->selectedChat->id)->count();
+        $this->messages_count = $this->getMessagesService()->getMessagesCount($this->selectedChat->id);
 
-        $this->messages = Message::where('chat_id', $this->selectedChat->id)
-            ->skip($this->messages_count - $this->paginateVar)
-            ->take($this->paginateVar)
-            ->get();
+        $this->messages = $this->getMessagesService()->getLastMessages($this->selectedChat->id, $this->messages_count, $this->paginateVar);
 
         $this->dispatch('chat');
         $this->dispatch('header');

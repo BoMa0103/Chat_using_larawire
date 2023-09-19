@@ -29,4 +29,12 @@ class EloquentChatRepository implements ChatRepository
             })
             ->first();
     }
+
+    public function getChatsOrderByDesc(int $userId)
+    {
+        return Chat::where('user_id_first', $userId)
+            ->orWhere('user_id_second', $userId)
+            ->orderBy('last_time_message', 'DESC')
+            ->get();
+    }
 }

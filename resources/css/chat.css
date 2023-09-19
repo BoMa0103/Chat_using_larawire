@@ -41,13 +41,43 @@
     margin-top: -7px;
 }
 
+.show-users {
+    cursor: pointer;
+    height: fit-content;
+    margin-top: -7px;
+    margin-left: auto;
+}
+
+.show-users-in-list {
+    cursor: pointer;
+    height: fit-content;
+}
+
+.show-users-no-chat {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 6px;
+    cursor: pointer;
+}
+
 .chat-header-name {
     margin-left: 10px;
     margin-top: 1px;
 }
 
+.flex-container {
+    display: flex;
+    justify-content: space-between; /* Равномерное распределение между элементами */
+    align-items: center; /* Выравнивание элементов по вертикали */
+}
+
+.chat-search {
+    flex-grow: 1; /* Элемент chat-search будет занимать всю доступную ширину */
+}
+
 .chat-header {
-    min-height: 50px !important;
+    height: 50px;
     padding: 10px;
     text-align: center;
     font-weight: bold;
@@ -176,6 +206,10 @@
 .chat-input {
     align-items: center;
     margin: 2px 10px 10px 10px;
+}
+
+.hide-users {
+    cursor: pointer;
 }
 
 button {
@@ -365,6 +399,18 @@ textarea {
     overflow: hidden;
     height: 100%;
     min-width: fit-content;
+    background-color: hsl(var(--b1) / var(--tw-bg-opacity, 1));
+    z-index: 100;
+    display: none;
+    position: absolute;
+    right: 0;
+    width: 200px;
+}
+
+.flex-container-users {
+    display: flex;
+    justify-content: space-between; /* Равномерное распределение между элементами */
+    align-items: center; /* Выравнивание элементов по вертикали */
 }
 
 .users-header {
@@ -374,6 +420,8 @@ textarea {
     text-align: center;
     font-weight: bold;
     color: #e5dfd3;
+    margin: 0 auto;
+    padding-right: 38px;
 }
 
 .users ul {

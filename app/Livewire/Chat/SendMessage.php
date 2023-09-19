@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Chat;
 
-use App\Events\MessageSentEvent;
+use App\Events\MessageSent;
 use App\Models\Chat;
 use App\Models\Message;
 use App\Models\User;
-use App\Notifications\MessageSent;
+use App\Services\Messages\MessagesService;
 use Livewire\Component;
 
 class SendMessage extends Component
@@ -16,6 +16,11 @@ class SendMessage extends Component
     public $body;
     public $createdMessage;
     protected $listeners = ['updateSendMessage', 'dispatchMessageSent'];
+
+    private function getMessagesService(): MessagesService
+    {
+        return app(MessagesService::class);
+    }
 
     public function updateSendMessage(Chat $chat, User $receiver)
     {
@@ -29,7 +34,7 @@ class SendMessage extends Component
             return null;
         }
 
-        $this->createdMessage = Message::create([
+        $this->createdMessage = $this->getMessagesService()->createFromArray([
             'chat_id' => $this->selectedChat->id,
             'user_id' => auth()->id(),
             'value' => $this->body,
@@ -47,7 +52,7 @@ class SendMessage extends Component
 
         $this->dispatch('scroll-bottom');
 
-        broadcast(event: new MessageSentEvent(
+        broadcast(event: new MessageSent(
             auth()->user(),
             $this->createdMessage,
             $this->selectedChat,

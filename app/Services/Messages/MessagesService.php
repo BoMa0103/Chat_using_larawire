@@ -37,4 +37,14 @@ class MessagesService
     {
         return $this->messageRepository->getUnreadMessagesCount($chatId, $userId);
     }
+
+    public function getMessagesCount(int $chatId):int
+    {
+        return $this->messageRepository->getMessagesCount($chatId);
+    }
+
+    public function getLastMessages(int $chatId, int $messagesCount, int $paginateVar)
+    {
+        return $this->messageRepository->getLastMessages($chatId, $messagesCount, $paginateVar);
+    }
 }

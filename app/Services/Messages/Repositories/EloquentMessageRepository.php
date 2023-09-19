@@ -31,9 +31,9 @@ class EloquentMessageRepository implements MessageRepository
 
     public function setReadStatusMessages(int $chatId, int $userId)
     {
-        return Message::where('chat_id', '=', $chatId)
-            ->where('read_status', '=', self::UNREAD_STATUS)
-            ->where('user_id', '!=', $userId)
+        return Message::where('chat_id', $chatId)
+            ->where('read_status', self::UNREAD_STATUS)
+            ->where('user_id', $userId)
             ->update(['read_status' => self::READ_STATUS]);
     }
 
@@ -43,5 +43,18 @@ class EloquentMessageRepository implements MessageRepository
             ->where('user_id', '!=', $userId)
             ->where('read_status', '=', self::UNREAD_STATUS)
             ->count();
+    }
+
+    public function getMessagesCount(int $chatId):int
+    {
+        return Message::where('chat_id', $chatId)->count();
+    }
+
+    public function getLastMessages(int $chatId, int $messagesCount, int $paginateVar)
+    {
+        return Message::where('chat_id', $chatId)
+            ->skip($messagesCount - $paginateVar)
+            ->take($paginateVar)
+            ->get();
     }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire\Chat;
 
 use App\Models\Chat;
 use App\Models\Message;
+use App\Services\Messages\MessagesService;
 use Livewire\Component;
 
 class ChatboxChat extends Component
@@ -14,11 +15,16 @@ class ChatboxChat extends Component
     public $messages_count;
     public $height;
 
+    private function getMessagesService(): MessagesService
+    {
+        return app(MessagesService::class);
+    }
+
     public function getListeners()
     {
         $auth_id = auth()->user()->id;
         return [
-            "echo-private:chat.{$auth_id},MessageSentEvent" => 'broadcastedMessageReceived',
+            "echo-private:chat.{$auth_id},MessageSent" => 'broadcastedMessageReceived',
             "echo-private:chat.{$auth_id},MessageRead" => 'broadcastedMessageRead',
             'refresh' => '$refresh', 'chat', 'pushMessage', 'loadChatData', 'setMessages', 'loadMore', 'updateHeight', 'updatedHeightEvent'
         ];
@@ -35,7 +41,7 @@ class ChatboxChat extends Component
 
         $this->dispatch('refreshChatList');
 
-        $broadcastedMessage = Message::find($event['message']['id']);
+        $broadcastedMessage = $this->getMessagesService()->find($event['message']['id']);
 
         if ($this->selectedChat) {
 
@@ -77,19 +83,17 @@ class ChatboxChat extends Component
     {
         $this->paginateVar += 20;
 
-        $this->messages_count = Message::where('chat_id', $this->selectedChat->id)->count();
+        $this->messages_count = $this->getMessagesService()->getMessagesCount($this->selectedChat->id);
 
-        $this->messages = Message::where('chat_id', $this->selectedChat->id)
-            ->skip($this->messages_count - $this->paginateVar)
-            ->take($this->paginateVar)
-            ->get();
+        $this->messages = $this->getMessagesService()->getLastMessages($this->selectedChat->id, $this->messages_count, $this->paginateVar);
+
 
         $this->dispatch('updatedHeightEvent');
     }
 
     public function pushMessage(int $messageId)
     {
-        $newMessage = Message::find($messageId);
+        $newMessage = $this->getMessagesService()->find($messageId);
 
         $this->messages->push($newMessage);
 

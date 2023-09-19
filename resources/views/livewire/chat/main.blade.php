@@ -2,7 +2,7 @@
 
     /* Стили для ширины экрана больше 1028px */
     @media (min-width: 1029px) {
-        .chat-list, .users {
+        .chat-list {
             display: block;
         }
 
@@ -11,6 +11,10 @@
         }
 
         .return {
+            display: none;
+        }
+
+        .show-users-in-list {
             display: none;
         }
     }
@@ -28,6 +32,10 @@
         .users, .return {
             display: none;
         }
+
+        .show-users-in-list {
+            display: none;
+        }
     }
 
     /* Стили для ширины экрана меньше 768px */
@@ -42,6 +50,10 @@
 
         .concave-left {
             display: block !important;
+        }
+
+        .show-users-no-chat {
+            display: none;
         }
     }
 </style>

@@ -30,20 +30,43 @@ function markSelectedChat(li) {
     }
 }
 
+function showUsers() {
+    let users = $('.users');
+    let users_header = $('.users_header');
+    users.show()
+    users.css('position', 'absolute');
+    users.css('right', '0');
+    users.css('width', '200px');
+
+    users_header.css('padding-right', '38px');
+}
+
+function hideUsers() {
+    let users = $('.users');
+    let users_header = $('.users_header');
+    users.hide()
+    users.css('position', '');
+    users.css('right', '');
+    users.css('width', '');
+
+    users_header.css('padding-right', '');
+}
+
 /* Scroll */
+/* Move to blades */
 
-function scrollToBottom() {
-    let chatMessages = document.getElementById('messages');
-
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-function scrollToCurrentMessage() {
-    let chatMessages = document.getElementById('messages');
-
-    // chatMessages.scrollTop = chatMessages.scrollHeight - previousScrollHeight;
-}
+// function scrollToBottom() {
+//     let chatMessages = document.getElementById('messages');
+//
+//
+//     chatMessages.scrollTop = chatMessages.scrollHeight;
+// }
+//
+// function scrollToCurrentMessage() {
+//     let chatMessages = document.getElementById('messages');
+//
+//     // chatMessages.scrollTop = chatMessages.scrollHeight - previousScrollHeight;
+// }
 
 
 /* Notifications */
@@ -85,31 +108,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
             sendButton.setAttribute('disabled', 'disabled');
         }
     });
-
-    // chatMessages.addEventListener('scroll', function () {
-    //     const scrollTop = chatMessages.scrollTop;
-    //     const scrollHeight = chatMessages.scrollHeight;
-    //
-    //     console.log('sdfsd');
-    //
-    //
-    //     if (scrollTop === 0 && loadMessagesCount !== 0) {
-    //         previousScrollHeight = scrollHeight;
-    //         socket.send('{"message": "require_messages_history", "load_messages_count": "' + loadMessagesCount + '", "default_messages_count_load": "' + DEFAULT_MESSAGES_COUNT_LOAD + '"}');
-    //     }
-    // });
-
-    // textArea.addEventListener('input', function () {
-    //     if (textArea.value.trim() !== '') {
-    //         sendButton.removeAttribute('disabled');
-    //     } else {
-    //         sendButton.setAttribute('disabled', 'disabled');
-    //     }
-    // });
-
-    search.addEventListener('input', function () {
-
-    })
 });
 
 
