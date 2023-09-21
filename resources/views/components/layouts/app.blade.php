@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ URL::asset('images/free-icon-chat-bubble-6068634.png') }}" type="image/png">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <title>Chat</title>
 
